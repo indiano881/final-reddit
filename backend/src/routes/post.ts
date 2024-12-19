@@ -2,7 +2,7 @@ import { Request, Response, Router } from "express";
 
 export const getPosts= async (req: Request, res: Response)=> {
 
-    res.status(200).json({title: 'hello POSTSSS'})
+    res.status(200).json([{title: 'hello POSTSSS'},{title: 'hello POSTSSS 2'}])
 }
 
 export const getPost= async (req: Request, res: Response) => {
