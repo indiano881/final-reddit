@@ -3,11 +3,12 @@
 import { useMutation } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { postActionSchema, PostValues } from '../../../../lib/schemas'
+import { handleServerActionError, toastServerError } from '../../../../lib/error-handling'
+import { createPost } from '../../../../actions/create-post'
+import { FieldError } from '@/app/components/field-error'
 
-import { createPost } from '@/actions/create-post'
-import { postActionSchema, type PostValues } from '@/lib/schemas'
-import { handleServerActionError, toastServerError } from '@/lib/error-handling'
-import { FieldError } from '@/components/field-error'
+
 
 export const CreatePostForm = () => {
   const { mutate, isPending } = useMutation({
