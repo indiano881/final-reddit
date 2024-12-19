@@ -3,9 +3,10 @@
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 
-import { auth } from '@/lib/auth'
-import { client } from '@/lib/client'
-import { handleAxiosError } from '@/lib/error-handling'
+import { postActionSchema, PostValues } from '../lib/schemas'
+import { auth } from '../lib/auth'
+import { client } from '../lib/client'
+import { handleAxiosError } from '../lib/error-handling'
 
 export const deletePost = async (postId: string) => {
   const accessToken = await auth.getAccessToken()

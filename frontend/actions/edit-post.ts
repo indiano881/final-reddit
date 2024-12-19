@@ -3,10 +3,10 @@
 import { redirect } from 'next/navigation'
 import { revalidatePath } from 'next/cache'
 
-import { auth } from '@/lib/auth'
-import { client } from '@/lib/client'
-import { handleAxiosError } from '@/lib/error-handling'
-import { postActionSchema, type PostValues } from '@/lib/schemas'
+import { postActionSchema, PostValues } from '../lib/schemas'
+import { auth } from '../lib/auth'
+import { client } from '../lib/client'
+import { handleAxiosError } from '../lib/error-handling'
 
 export const editPost = async ({
   data,

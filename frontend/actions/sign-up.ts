@@ -2,12 +2,10 @@
 
 import { redirect } from 'next/navigation'
 
-import { client } from '@/lib/client'
-import { signUpSchema, type SignUpValues } from '@/lib/schemas'
-import {
-  handleAxiosError,
-  type ServerActionResponse,
-} from '@/lib/error-handling'
+import {  signUpSchema, SignUpValues } from '../lib/schemas'
+import { client } from '../lib/client'
+import { handleAxiosError, ServerActionResponse } from '../lib/error-handling'
+
 
 export const signUp = async (
   data: SignUpValues,
