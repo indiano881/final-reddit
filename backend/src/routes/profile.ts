@@ -16,7 +16,7 @@ const getProfile= async( req: Request, res: Response) => {
             username: user?.username,
             id: user?._id
         })
-        
+
     } catch (error) {
         console.log(error)
         res.status(500).send()
@@ -26,4 +26,4 @@ const getProfile= async( req: Request, res: Response) => {
 
 export const profileRouter= Router();
 
-profileRouter.get('profile', authenticate ,getProfile)
+profileRouter.get('/profile', authenticate ,getProfile)
