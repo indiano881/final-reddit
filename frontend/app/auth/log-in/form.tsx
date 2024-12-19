@@ -3,17 +3,16 @@
 import { useMutation } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { signUpSchema, SignUpValues } from '../../../../lib/schemas'
-import { handleServerActionError, toastServerError } from '../../../../lib/error-handling'
-import { signUp } from '../../../../actions/sign-up'
-import { FieldError } from '@/app/components/field-error'
 
+import { logIn } from '@/actions/log-in'
+import { logInSchema, LogInValues } from '@/lib/schemas'
+import { handleServerActionError, toastServerError } from '@/lib/error-handling'
+import { FieldError } from '@/components/field-error'
 
-
-export const SignUpForm = () => {
+export const LogInForm = () => {
   const { mutate, isPending } = useMutation({
-    mutationFn: async (values: SignUpValues) => {
-      handleServerActionError(await signUp(values))
+    mutationFn: async (values: LogInValues) => {
+      handleServerActionError(await logIn(values))
     },
     onError: toastServerError,
   })
@@ -22,8 +21,8 @@ export const SignUpForm = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<SignUpValues>({
-    resolver: zodResolver(signUpSchema),
+  } = useForm<LogInValues>({
+    resolver: zodResolver(logInSchema),
   })
 
   return (
@@ -46,7 +45,7 @@ export const SignUpForm = () => {
       />
       <FieldError error={errors.password} />
       <button type='submit' className='button-primary' disabled={isPending}>
-        {isPending ? 'signing up...' : 'sign up'}
+        {isPending ? 'logging in...' : 'log in'}
       </button>
     </form>
   )

@@ -4,10 +4,9 @@ import { useInfiniteQuery } from '@tanstack/react-query'
 import { useEffect, useRef } from 'react'
 import Link from 'next/link'
 
-
-
-import { HomepagePostsData } from '../../../lib/schemas'
-import { getPosts } from '../../../lib/queries'
+import { type HomepagePostsData } from '@/lib/schemas'
+import { getPosts } from '@/lib/queries'
+import { Votes } from './votes'
 
 export const HomePosts = ({
   initialData,
@@ -44,7 +43,13 @@ export const HomePosts = ({
         >
           <span className='text-zinc-600'>{author.username}</span>
           <h2 className='text-lg font-bold'>{title}</h2>
-          
+          <Votes
+            postId={id}
+            userId={userId}
+            score={score}
+            upvotes={upvotes}
+            downvotes={downvotes}
+          />
         </Link>
       ))}
       <Loader

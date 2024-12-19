@@ -1,19 +1,28 @@
 'use client'
 
+import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { postActionSchema, PostValues } from '../../../../lib/schemas'
-import { handleServerActionError, toastServerError } from '../../../../lib/error-handling'
-import { createPost } from '../../../../actions/create-post'
-import { FieldError } from '@/app/components/field-error'
 
+import {
+  postActionSchema,
+  type PostPageData,
+  type PostValues,
+} from '@/lib/schemas'
+import { FieldError } from '@/components/field-error'
+import { handleServerActionError, toastServerError } from '@/lib/error-handling'
+import { editPost } from '@/actions/edit-post'
 
-
-export const CreatePostForm = () => {
+export const EditPostForm = ({
+  defaultValues,
+  postId,
+}: {
+  defaultValues: Pick<PostPageData, 'title' | 'content'>
+  postId: string
+}) => {
   const { mutate, isPending } = useMutation({
     mutationFn: async (values: PostValues) => {
-      handleServerActionError(await createPost(values))
+      handleServerActionError(await editPost({ data: values, postId }))
     },
     onError: toastServerError,
   })
@@ -24,6 +33,7 @@ export const CreatePostForm = () => {
     formState: { errors },
   } = useForm<PostValues>({
     resolver: zodResolver(postActionSchema),
+    defaultValues,
   })
 
   return (
@@ -45,7 +55,7 @@ export const CreatePostForm = () => {
       />
       <FieldError error={errors.content} />
       <button type='submit' className='button-primary'>
-        {isPending ? 'uploading post...' : 'post'}
+        {isPending ? 'saving changes...' : 'save changes'}
       </button>
     </form>
   )

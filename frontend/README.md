@@ -1,3 +1,7 @@
+This is a frontend starter repository for the second part of the course Webservers and databases at Changemaker Educations. It is meant to be used as part of what we're doing in the [lectures](https://github.com/ell-ska/cme-week-6-10-lectures)
+
+---
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started

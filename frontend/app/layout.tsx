@@ -2,10 +2,9 @@ import { Albert_Sans } from 'next/font/google'
 import type { Metadata } from 'next'
 import { Toaster } from 'sonner'
 
-
+import { cn } from '@/utils/classnames'
+import { QueryClientProvider } from '@/providers/query-client-provider'
 import './globals.css'
-import { cn } from '../../utils/classnames'
-import { QueryClientProvider } from '../../providers/query-client-provider'
 
 const albertSans = Albert_Sans({ subsets: ['latin'] })
 

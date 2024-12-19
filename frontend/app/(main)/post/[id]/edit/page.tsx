@@ -1,9 +1,8 @@
 import { notFound } from 'next/navigation'
 
-
+import { auth } from '@/lib/auth'
+import { getPost } from '@/lib/queries'
 import { EditPostForm } from './form'
-import { getPost } from '../../../../../../lib/queries'
-import { auth } from '../../../../../../lib/auth'
 
 export default async function EditPostPage({
   params,

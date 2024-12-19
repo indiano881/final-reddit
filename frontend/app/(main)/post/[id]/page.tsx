@@ -1,10 +1,9 @@
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
-import { getPost } from '../../../../../lib/queries'
-import { auth } from '../../../../../lib/auth'
-import { DeletePostButton } from '@/app/components/delete-post-button'
 
-
+import { getPost } from '@/lib/queries'
+import { auth } from '@/lib/auth'
+import { DeletePostButton } from '@/components/delete-post-button'
 
 export const revalidate = 60 * 15 // 15 min
 

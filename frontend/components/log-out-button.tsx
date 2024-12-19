@@ -1,8 +1,6 @@
 'use client'
 
-import { logOut } from "../../../actions/log-out"
-
-
+import { logOut } from '@/actions/log-out'
 
 export const LogOutButton = () => {
   return (

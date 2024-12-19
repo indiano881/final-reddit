@@ -1,8 +1,7 @@
 import Link from 'next/link'
 
-
+import { auth } from '@/lib/auth'
 import { LogOutButton } from './log-out-button'
-import { auth } from '../../../lib/auth'
 
 export const Header = async () => {
   const user = await auth.getUser()

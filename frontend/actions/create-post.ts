@@ -2,12 +2,11 @@
 
 import { redirect } from 'next/navigation'
 import { revalidatePath } from 'next/cache'
-import { postActionSchema, PostValues } from '../lib/schemas'
-import { auth } from '../lib/auth'
-import { client } from '../lib/client'
-import { handleAxiosError } from '../lib/error-handling'
 
-
+import { auth } from '@/lib/auth'
+import { client } from '@/lib/client'
+import { handleAxiosError } from '@/lib/error-handling'
+import { postActionSchema, type PostValues } from '@/lib/schemas'
 
 export const createPost = async (data: PostValues) => {
   const parsedData = postActionSchema.parse(data)

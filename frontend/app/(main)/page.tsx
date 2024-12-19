@@ -1,7 +1,6 @@
-import { auth } from "../../../lib/auth"
-import { getPosts } from "../../../lib/queries"
-import { HomePosts } from "../components/home-posts"
-
+import { getPosts } from '@/lib/queries'
+import { HomePosts } from '@/components/home-posts'
+import { auth } from '@/lib/auth'
 
 export const revalidate = 900 // 15 min
 
