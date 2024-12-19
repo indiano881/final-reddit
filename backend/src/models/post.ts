@@ -1,4 +1,4 @@
-import { Document, Schema, Types } from "mongoose";
+import { Document, model, Schema, Types } from "mongoose";
 
 type TComment= Document & {
     content: string,
@@ -6,6 +6,7 @@ type TComment= Document & {
     createdAt: Date,
     updatedAt: Date
 }
+
 const commentSchema= new Schema({
     content: {
         type: String,
@@ -22,6 +23,15 @@ const commentSchema= new Schema({
     timestamps: true
 })
 
+type TPost= Document & {
+    title: string,
+    content?: string,
+    author: Types.ObjectId,
+    comments: TComment[],
+    createdAt: Date,
+    updatedAt: Date
+}
+
 const postSchema= new Schema({
     title: {
         type: String,
@@ -36,5 +46,12 @@ const postSchema= new Schema({
         ref: 'User',//we ref to 'User' that is the table/model name
         required: true
      
-    }
-})
+    },
+    comments: [commentSchema]
+},
+{
+    timestamps: true
+}
+)
+
+export const Post = model<TPost>('Post', postSchema)
