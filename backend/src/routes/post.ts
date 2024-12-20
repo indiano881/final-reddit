@@ -124,7 +124,7 @@ const getPost = async (req: Request, res: Response) => {
       return
     }
 
-    const post = await Post.findById(id).populate('author', 'username')
+    const post = await Post.findById(id).populate('author', 'username').populate('comments.author', 'username')
 
     if (!post) {
       res.status(404).json({ message: 'post not found' })

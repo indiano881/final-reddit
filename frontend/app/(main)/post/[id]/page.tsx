@@ -42,6 +42,18 @@ export default async function PostPage({
         </header>
         <p>{post.content}</p>
       </article>
+      <section className="comments">
+          {post.comments.length > 0 ? (
+            post.comments.map((item, index) => (
+              <div key={index} className="comment space-y-2">
+                <p className="text-zinc-800">{item.content}</p>
+                <p className="text-sm text-zinc-600">by {item.author.username}</p>
+              </div>
+            ))
+          ) : (
+            <p>No comments available</p>
+          )}
+        </section>
       {user && <><CreateComment postId={post.id} /></>}
     </main>
   )
