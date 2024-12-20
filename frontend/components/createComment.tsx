@@ -37,17 +37,17 @@ export default function CreateComment({ postId }: CreateCommentProps) {
   return (
     <form
       onSubmit={handleSubmit((values) => mutate(values))}
-      className="flex w-full flex-col gap-4"
+      className="flex w-full flex-col gap-4 pt-6"
     >
       <textarea
         {...register('content')}
         placeholder="Write your comment here"
-        className={`textarea ${errors.content ? 'textarea-error' : ''}`}
+        className={`textarea ${errors.content ? 'textarea-error' : ''}  input min-h-24 rounded-3xl`}
       />
       {errors.content && (
         <p className="text-red-500 text-sm">{errors.content.message}</p>
       )}
-      <button type="submit" disabled={isPending}>
+      <button type="submit" disabled={isPending} className='button-secondary'>
         {isPending ? 'Posting...' : 'Post Comment'}
       </button>
     </form>

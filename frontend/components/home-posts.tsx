@@ -43,8 +43,8 @@ export const HomePosts = ({
           onClick={()=> router.push(`/post/${id}`)}
           className='flex w-full flex-col rounded-3xl bg-white p-4'
         >
-          <span className='text-zinc-600'>{author.username}</span>
-          <h2 className='text-lg font-bold'>{title}</h2>
+          <span className='text-zinc-600 break-all'>{author.username}</span>
+          <h2 className='text-lg font-bold break-all'>{title}</h2>
           <Votes
             postId={id}
             userId={userId}

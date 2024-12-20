@@ -306,26 +306,16 @@ const deleteComment = async (req: Request, res: Response) => {
       return
     }
 
-    
-
-    if (post.author.toString() !== req.userId) {
-      res
-        .status(403)
-        .json({ message: 'you are not allowed to delete this post' })
-      return
-    }
-
     const comment =post.comments.id(commentId)
 
-    if (comment?.author.toString() !== req.userId) {
+    if (post.author.toString() !== req.userId && comment?.author.toString() !== req.userId) {
       res
         .status(403)
         .json({ message: 'you are not allowed to delete this post' })
       return
     }
 
-
-    await comment.deleteOne()
+    await comment?.deleteOne()
 
     await post.save();
     res.status(200).json({ message: 'post deleted' })

@@ -27,13 +27,13 @@ export default async function PostPage({
   return (
     <main className='main'>
       <article className='space-y-4'>
-        <header className='flex items-start justify-between'>
+        <header className='flex items-center justify-between'>
           <div className='space-y-1'>
-            <span className='text-zinc-600'>{post.author.username}</span>
-            <h1 className='text-2xl font-bold'>{post.title}</h1>
+            <span className='text-zinc-600 break-all text-md'>{post.author.username}</span>
+            <h1 className='text-2xl font-bold break-all'>{post.title}</h1>
           </div>
           {isAuthor && (
-            <div className='flex gap-3'>
+            <div className='flex gap-3 p-4'>
               <Link href={`/post/${post.id}/edit`} className='button-secondary'>
                 edit
               </Link>
@@ -41,22 +41,23 @@ export default async function PostPage({
             </div>
           )}
         </header>
-        <p>{post.content}</p>
+        <p className='break-all'>{post.content}</p>
       </article>
+      {user && <><CreateComment postId={post.id} /></>}
       <section className="comments">
           {post.comments.length > 0 ? (
             post.comments.map((item, index) => (
               <div key={index} className="comment space-y-2">
-                <p className="text-zinc-800">{item.content}</p>
-                <p className="text-sm text-zinc-600">by {item.author.username}</p>
-                { (isAuthor  && user.id === item.author._id) &&<DeleteCommentButton postId={post.id} commentId={item._id} />}
+                <p className="text-zinc-800 break-all">{item.content}</p>
+                <p className="text-sm text-zinc-600 break-all">by {item.author.username}</p>
+                { (isAuthor  || user?.id === item.author._id) &&<DeleteCommentButton postId={post.id} commentId={item._id} />}
               </div>
             ))
           ) : (
             <p>No comments available</p>
           )}
         </section>
-      {user && <><CreateComment postId={post.id} /></>}
+      
     </main>
   )
 }

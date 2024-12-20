@@ -25,5 +25,5 @@ export const deleteComment = async (postId: string, commentId: string) => {
   }
 
   revalidatePath('/')
-  redirect('/')
+  redirect(`/post/${postId}`)
 }
