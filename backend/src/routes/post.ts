@@ -290,7 +290,50 @@ const createComment = async (req: Request, res: Response) => {
   }
 };
 
+const deleteComment = async (req: Request, res: Response) => {
+  try {
+    const { id, commentId } = req.params
 
+    if (!isValidObjectId(id)) {
+      res.status(400).json({ message: 'invalid post id' })
+      return
+    }
+
+    const post = await Post.findById(id)
+    console.log(post)
+    if (!post) {
+      res.status(404).json({ message: 'post not found' })
+      return
+    }
+
+    
+
+    if (post.author.toString() !== req.userId) {
+      res
+        .status(403)
+        .json({ message: 'you are not allowed to delete this post' })
+      return
+    }
+
+    const comment =post.comments.id(commentId)
+
+    if (comment?.author.toString() !== req.userId) {
+      res
+        .status(403)
+        .json({ message: 'you are not allowed to delete this post' })
+      return
+    }
+
+
+    await comment.deleteOne()
+
+    await post.save();
+    res.status(200).json({ message: 'post deleted' })
+  } catch (error) {
+    console.error(error)
+    res.status(500).send()
+  }
+}
 export const postRouter = Router()
 
 postRouter.get('/posts', getPosts)
@@ -299,3 +342,4 @@ postRouter.post('/posts', authenticate, createPost)
 postRouter.delete('/posts/:id', authenticate, deletePost)
 postRouter.put('/posts/:id', authenticate, editPost)
 postRouter.post('/posts/:id/comments', authenticate, createComment)
+postRouter.delete('/posts/:id/comments/:commentId', authenticate, deleteComment)

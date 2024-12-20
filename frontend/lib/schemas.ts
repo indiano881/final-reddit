@@ -36,7 +36,7 @@ export const postPageSchema = z.object({
   id: z.string(),
   title: z.string(),
   content: z.string().optional(),
-  comments: z.array(z.object({content: z.string(), author: z.object({username: z.string()}), _id: z.string()})),
+  comments: z.array(z.object({content: z.string(), author: z.object({username: z.string(), _id: z.string()}), _id: z.string()})),
   author: z.object({
     username: z.string(),
     id: z.string(),

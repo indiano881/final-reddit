@@ -5,6 +5,7 @@ import { getPost } from '@/lib/queries'
 import { auth } from '@/lib/auth'
 import { DeletePostButton } from '@/components/delete-post-button'
 import CreateComment from '@/components/createComment'
+import { DeleteCommentButton } from '@/components/delete-comment-button'
 
 export const revalidate = 900 
 
@@ -22,7 +23,7 @@ export default async function PostPage({
 
   const user = await auth.getUser()
   const isAuthor = user && user.id === post.author.id
-
+ 
   return (
     <main className='main'>
       <article className='space-y-4'>
@@ -48,6 +49,7 @@ export default async function PostPage({
               <div key={index} className="comment space-y-2">
                 <p className="text-zinc-800">{item.content}</p>
                 <p className="text-sm text-zinc-600">by {item.author.username}</p>
+                { (isAuthor  && user.id === item.author._id) &&<DeleteCommentButton postId={post.id} commentId={item._id} />}
               </div>
             ))
           ) : (
