@@ -61,3 +61,9 @@ export const homepagePostsSchema = z.object({
 })
 
 export type HomepagePostsData = z.infer<typeof homepagePostsSchema>
+
+export const commentActionSchema = z.object({
+  content: z.string().min(1, 'content is required'),
+})
+
+export type CommentValues = z.infer<typeof commentActionSchema>
