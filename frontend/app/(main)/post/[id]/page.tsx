@@ -42,7 +42,7 @@ export default async function PostPage({
         </header>
         <p>{post.content}</p>
       </article>
-      {user && <><CreateComment /></>}
+      {user && <><CreateComment postId={post.id} /></>}
     </main>
   )
 }

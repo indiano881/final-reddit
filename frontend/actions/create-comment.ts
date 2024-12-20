@@ -6,7 +6,7 @@ import { revalidatePath } from 'next/cache'
 import { auth } from '@/lib/auth'
 import { client } from '@/lib/client'
 import { handleAxiosError } from '@/lib/error-handling'
-import { CommentValues, postActionSchema } from '@/lib/schemas'
+import { CommentValues, commentActionSchema } from '@/lib/schemas'
 
 export const createComment = async ({
   data,
@@ -16,7 +16,7 @@ export const createComment = async ({
   postId: string
   
 }) => {
-  const parsedData = postActionSchema.parse(data)
+  const parsedData = commentActionSchema.parse(data)
   const accessToken = await auth.getAccessToken()
 
   if (!accessToken) {
@@ -24,7 +24,7 @@ export const createComment = async ({
   }
 
   try {
-    await client.post(`/comments`, parsedData, {
+    await client.post(`/posts/${postId}/comments`, parsedData, {
       headers: {
         Authorization: `Bearer ${accessToken.value}`,
       },

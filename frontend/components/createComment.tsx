@@ -1,14 +1,18 @@
 "use client"
 
+import React from 'react';
+import { useForm } from 'react-hook-form';
+import { useMutation } from '@tanstack/react-query';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { createComment } from '@/actions/create-comment';
 import { handleServerActionError, toastServerError } from '@/lib/error-handling';
 import { commentActionSchema, CommentValues } from '@/lib/schemas';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useMutation } from '@tanstack/react-query';
-import React from 'react';
-import { useForm } from 'react-hook-form';
 
-export default function CreateComment() {
+interface CreateCommentProps {
+  postId: string; // Add postId as a prop
+}
+
+export default function CreateComment({ postId }: CreateCommentProps) {
   const {
     register,
     handleSubmit,
@@ -19,7 +23,13 @@ export default function CreateComment() {
 
   const { mutate, isPending } = useMutation({
     mutationFn: async (values: CommentValues) => {
-      handleServerActionError(await createComment(values));
+      // Pass the expected shape to `createComment`
+      return handleServerActionError(
+        await createComment({
+          data: values,
+          postId,
+        })
+      );
     },
     onError: toastServerError,
   });
