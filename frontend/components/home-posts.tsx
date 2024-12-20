@@ -2,11 +2,11 @@
 
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { useEffect, useRef } from 'react'
-import Link from 'next/link'
 
 import { type HomepagePostsData } from '@/lib/schemas'
 import { getPosts } from '@/lib/queries'
 import { Votes } from './votes'
+import { useRouter } from 'next/navigation'
 
 export const HomePosts = ({
   initialData,
@@ -17,6 +17,8 @@ export const HomePosts = ({
   limit: number
   userId: string | null
 }) => {
+
+  const router= useRouter()
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useInfiniteQuery({
       queryKey: ['posts'],
@@ -36,9 +38,9 @@ export const HomePosts = ({
   return (
     <section className='flex flex-col items-center gap-4'>
       {currentPosts.map(({ id, title, author, score, upvotes, downvotes }) => (
-        <Link
+        <div role='button'
           key={id}
-          href={`/post/${id}`}
+          onClick={()=> router.push(`/post/${id}`)}
           className='flex w-full flex-col rounded-3xl bg-white p-4'
         >
           <span className='text-zinc-600'>{author.username}</span>
@@ -50,7 +52,7 @@ export const HomePosts = ({
             upvotes={upvotes}
             downvotes={downvotes}
           />
-        </Link>
+        </div>
       ))}
       <Loader
         hasNextPage={hasNextPage}

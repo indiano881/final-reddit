@@ -6,14 +6,13 @@ import { revalidatePath } from 'next/cache'
 import { auth } from '@/lib/auth'
 import { client } from '@/lib/client'
 import { handleAxiosError } from '@/lib/error-handling'
-import { postActionSchema, type PostValues } from '@/lib/schemas'
+import { CommentValues, postActionSchema } from '@/lib/schemas'
 
 export const createComment = async ({
   data,
-  postId,
 }: {
-  data: PostValues
-  postId: string
+  data: CommentValues
+  
 }) => {
   const parsedData = postActionSchema.parse(data)
   const accessToken = await auth.getAccessToken()

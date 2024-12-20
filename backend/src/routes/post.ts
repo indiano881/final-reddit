@@ -21,11 +21,68 @@ const getPosts = async (req: Request, res: Response) => {
       return;
     }
 
-    const posts = await Post.find()
-      .populate('author', 'username')
-      .skip(limit * (page - 1))
-      .limit(limit);
+    //const posts = await Post.find()
+      //.populate('author', 'username')
+      //.skip(limit * (page - 1))
+     // .limit(limit);
 
+     const posts = await Post.aggregate([
+      {$addFields: {
+        sortValue: {
+          $divide: [
+            {
+              $add: ['$score', 1]
+            },
+            {
+              //pow=upgrade
+              $pow: [
+                {
+                  $add: [
+                    { $divide: [
+                      {
+                        $subtract: [new Date(), '$createdAt']
+                      }, 1000 * 60* 60,
+                      ]
+                    },
+                    1,
+                  ]
+                }
+                ,
+                1.5 //the higer the older comes faster /lower th 1 it will me mor eimprtant
+               
+              ]
+            }
+          ]
+        } 
+      }
+      },
+      {$sort: {sortValue: -1}},
+      {
+        $skip: limit * (page - 1),
+      },
+      {
+        $limit: limit,
+      },
+      {
+        $lookup: {
+          from: 'users', // The collection name for users
+          localField: 'author', // The field in 'posts' that references 'users'
+          foreignField: '_id', // The field in 'users' that is referenced
+          pipeline: [
+            {
+              $project: {
+                username: 1, // Only include the 'username' field in the result
+              },
+            },
+          ],
+          as: 'author', // Alias for the result of the lookup
+        },
+      },
+      {
+        $unwind: '$author', // Flatten the 'author' array after lookup
+      },
+    ]);
+    
     const responsePosts = posts
       .filter((post) => post.author) // Exclude posts with null author
       .map((post) => {
