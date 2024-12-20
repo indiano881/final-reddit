@@ -4,8 +4,9 @@ import Link from 'next/link'
 import { getPost } from '@/lib/queries'
 import { auth } from '@/lib/auth'
 import { DeletePostButton } from '@/components/delete-post-button'
+import CreateComment from '@/components/createComment'
 
-export const revalidate = 60 * 15 // 15 min
+export const revalidate = 900 
 
 export default async function PostPage({
   params,
@@ -14,7 +15,7 @@ export default async function PostPage({
 }) {
   const id = (await params).id
   const post = await getPost(id)
-
+  
   if (!post) {
     return notFound()
   }
@@ -41,6 +42,7 @@ export default async function PostPage({
         </header>
         <p>{post.content}</p>
       </article>
+      {user && <><CreateComment /></>}
     </main>
   )
 }
