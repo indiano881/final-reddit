@@ -14,7 +14,7 @@ export const DeleteCommentButton = ({ postId, commentId }: { postId: string, com
   })
 
   return (
-    <button onClick={() => mutate()} className='button-secondary'>
+    <button onClick={() => mutate()} className='button-secondary max-w-[80px]'>
       {isPending ? 'deleting comment...' : 'delete'}
     </button>
   )

@@ -47,7 +47,7 @@ export default async function PostPage({
       <section className="comments">
           {post.comments.length > 0 ? (
             post.comments.map((item, index) => (
-              <div key={index} className="comment space-y-2">
+              <div key={index} className="border-zinc-200 bg-white p-4 rounded-full space-y-2 flex flex-col m-4">
                 <p className="text-zinc-800 break-all">{item.content}</p>
                 <p className="text-sm text-zinc-600 break-all">by {item.author.username}</p>
                 { (isAuthor  || user?.id === item.author._id) &&<DeleteCommentButton postId={post.id} commentId={item._id} />}
