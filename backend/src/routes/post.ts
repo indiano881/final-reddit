@@ -1,5 +1,5 @@
 import { Router, type Request, type Response } from 'express'
-import { isValidObjectId, ObjectId } from 'mongoose'
+import { isValidObjectId, ObjectId, Types } from 'mongoose'
 
 import { Post } from '../models/post'
 import { authenticate } from '../middlewares/authenticate'
@@ -91,6 +91,7 @@ const getPosts = async (req: Request, res: Response) => {
         return {
           id: post._id,
           title: post.title,
+          comments: post.comments,
           author: {
             username: author?.username || 'Unknown Author', // Fallback for missing author
           },
@@ -136,6 +137,7 @@ const getPost = async (req: Request, res: Response) => {
       id: post._id,
       title: post.title,
       content: post.content,
+      comments: post.comments,
       author: {
         id: author._id,
         username: author.username,
@@ -249,6 +251,46 @@ const editPost = async (req: Request, res: Response) => {
   }
 }
 
+const createComment = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params; 
+
+    if (!isValidObjectId(id)) {
+      res.status(400).json({ message: 'Invalid post ID' });
+      return;
+    }
+
+    const post = await Post.findById(id);
+
+    if (!post) {
+      res.status(404).json({ message: 'Post not found' });
+      return;
+    }
+
+    const { content } = req.body; 
+
+    if (!content || typeof content !== 'string') {
+      res.status(400).json({ message: 'Malformed content' });
+      return;
+    }
+
+    post.comments.push({
+      content,
+      author: req.userId
+      
+    });
+
+   
+    await post.save();
+
+    res.status(200).json({ message: 'Comment added successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
+
 export const postRouter = Router()
 
 postRouter.get('/posts', getPosts)
@@ -256,3 +298,4 @@ postRouter.get('/posts/:id', getPost)
 postRouter.post('/posts', authenticate, createPost)
 postRouter.delete('/posts/:id', authenticate, deletePost)
 postRouter.put('/posts/:id', authenticate, editPost)
+postRouter.post('/posts/:id/comments', authenticate, createComment)

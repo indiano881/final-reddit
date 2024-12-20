@@ -28,7 +28,7 @@ type TPost = Document & {
   title: string
   content?: string
   author: Types.ObjectId
-  comments: TComment[]
+  comments: Types.DocumentArray<TComment>
   upvotes: Types.Array<Types.ObjectId>
   downvotes: Types.Array<Types.ObjectId>
   score: number

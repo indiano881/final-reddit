@@ -10,8 +10,10 @@ import { CommentValues, postActionSchema } from '@/lib/schemas'
 
 export const createComment = async ({
   data,
+  postId,
 }: {
-  data: CommentValues
+  data: CommentValues,
+  postId: string
   
 }) => {
   const parsedData = postActionSchema.parse(data)
